@@ -41,7 +41,7 @@ class Office_mgmt_sys:
             print(emp)
             
     def add_task(self, task_id, task_title, assigned_to, deadline, emp_id):
-        employee = next((e for e in self.employees if e.emp_id == emp_id), None)
+        employee = next((e for e in self.employees if e.emp_id == emp_id), None) #loops through employee and filters emp_id
         if not self.employees:
             print("❌ Employees not found.")
             
@@ -58,3 +58,46 @@ class Office_mgmt_sys:
             
         for task in self.tasks:
             print(task)
+            
+            
+if __name__ == "__main__":
+    
+    systemOfEmp = Office_mgmt_sys()
+    
+    print("\n ------Your choices------")
+    print("1. Add employee details.")
+    print("2. View employee details.")
+    print("3. Add employee tasks.")
+    print("4. View employee tasks.")
+    print("5. Exit.")
+    
+    choice = int(input("Enter your choice : "))
+    
+    if choice == 1:
+        name = input("Enter employee ID : ")
+        gender = input("Enter your gender : ")
+        post = input("Enter your position : ")
+        email = input("Enter your email : ") # remaining validation of email, will do this later
+        
+        systemOfEmp.add_employee(name, gender, post, email)
+        
+    elif choice == 2:
+        systemOfEmp.view_employee()
+        
+    elif choice == 3:
+        task_title = input("Enter the title of task : ")
+        assigned_to = input("Enter the name of employee to whom task is assigned : ")
+        deadline = int(input("Enter the deadline of task(YYYY-MM--DD) : ")) # remaining to validate, will do this later
+        
+        systemOfEmp.add_task(task_title, assigned_to, deadline)    
+        
+    elif choice == 4:
+        systemOfEmp.view_task()
+        
+    elif choice == 5:
+        print("👋 Exited from task.")
+        
+    else:
+        print("⚠️ Enter valid choice.")
+        
+    # will continue later    
