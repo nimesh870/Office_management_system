@@ -74,7 +74,7 @@ if __name__ == "__main__":
     choice = int(input("Enter your choice : "))
     
     if choice == 1:
-        name = input("Enter employee ID : ")
+        name = input("Enter your name : ")
         gender = input("Enter your gender : ")
         post = input("Enter your position : ")
         email = input("Enter your email : ") # remaining validation of email, will do this later
