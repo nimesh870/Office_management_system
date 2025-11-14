@@ -1,6 +1,5 @@
 class Employee:
     def __init__(self , emp_id, name, post, gender , email):
-        
         self.emp_id = emp_id
         self.name = name
         self.post = post
@@ -11,8 +10,7 @@ class Employee:
         return f"({self.emp_id}) {self.name}  {self.gender} -> {self.post}  {self.email}"
     
 class Task:
-    
-    def task(self, task_id, assigned_to, task_title, deadline, task_status = "pending"):
+    def __init__(self, task_id, assigned_to, task_title, deadline, task_status = "pending"):
         self.task_id = task_id
         self.assigned_to = assigned_to
         self.task_title = task_title
@@ -20,21 +18,20 @@ class Task:
         self.task_status = task_status
         
     def __str__(self):
-        return f"({self.task_id})  {self.assigned_to} -> {self.task_status}"    
+        return f"({self.task_id})  {self.assigned_to} ->{self.task_status} task -> {self.task_title}"    
     
 class Office_mgmt_sys:
     def __init__(self):
         self.employees = []
         self.tasks= []
          
-    def add_employee(self , name , gender , post , email):
-        emp_id = len(self.employees) + 1 # increaments by 1 when new employee is added
+    def add_employee(self, emp_id , name , gender , post , email):
         emp = Employee(emp_id, name, gender, post, email)
         self.employees.append(emp)
-        print(f"✅ Successfully added the details of {self.name}.")
+        print(f"✅ Successfully added the details of {name}.")
         
     def view_employee(self):
-        if not self.employee:
+        if not self.employees:
             print("❌ No employees found.")
             
         for emp in self.employees:
@@ -45,16 +42,14 @@ class Office_mgmt_sys:
         if not self.employees:
             print("❌ Employees not found.")
             
-            return 
-        task_id = len(self.tasks) + 1
-        
-        task = Task(task_id, task_title, deadline, employee)
+        task = Task(task_id, assigned_to, task_title, deadline)
         self.tasks.append(task)
         print("✅ Tasks added successfully.")
         
-    def view_task(self):
+        
+    def view_task(self, task_id, task_title, assigned_to, deadline, emp_id):
         if not self.tasks:
-            print("❌ NO tasks added yet.")
+            print("❌ No tasks added yet.")
             
         for task in self.tasks:
             print(task)
@@ -71,33 +66,40 @@ if __name__ == "__main__":
     print("4. View employee tasks.")
     print("5. Exit.")
     
-    choice = int(input("Enter your choice : "))
+    while True:
     
-    if choice == 1:
-        name = input("Enter your name : ")
-        gender = input("Enter your gender : ")
-        post = input("Enter your position : ")
-        email = input("Enter your email : ") # remaining validation of email, will do this later
+        choice = int(input("Enter your choice : "))
         
-        systemOfEmp.add_employee(name, gender, post, email)
-        
-    elif choice == 2:
-        systemOfEmp.view_employee()
-        
-    elif choice == 3:
-        task_title = input("Enter the title of task : ")
-        assigned_to = input("Enter the name of employee to whom task is assigned : ")
-        deadline = int(input("Enter the deadline of task(YYYY-MM--DD) : ")) # remaining to validate, will do this later
-        
-        systemOfEmp.add_task(task_title, assigned_to, deadline)    
-        
-    elif choice == 4:
-        systemOfEmp.view_task()
-        
-    elif choice == 5:
-        print("👋 Exited from task.")
-        
-    else:
-        print("⚠️ Enter valid choice.")
+        if choice == 1:
+            emp_id = input("Enter employee's ID : ") # remaining for validation
+            name = input("Enter employee's name : ")
+            gender = input("Enter employee's gender : ")
+            post = input("Enter employee's position : ")
+            email = input("Enter employee's email : ") # remaining validation of email, will do this later
+            
+            systemOfEmp.add_employee(emp_id, name, gender, post, email)
+            
+            
+        elif choice == 2:
+            systemOfEmp.view_employee()
+            
+        elif choice == 3:
+            task_id = input("Enter the task ID : ")
+            task_title = input("Enter the title of task : ")
+            assigned_to = input("Enter the name of employee to whom task is assigned : ")
+            deadline = input("Enter the deadline of task(YYYY-MM--DD) : ") # remaining to validate, will do this later
+            
+            
+            systemOfEmp.add_task(task_id, task_title, assigned_to, deadline, emp_id)    
+            
+        elif choice == 4:
+            systemOfEmp.view_task(task_id, task_title, assigned_to, deadline, emp_id)
+            
+        elif choice == 5:
+            print("👋 Exited successfully.")
+            break
+            
+        else:
+            print("⚠️ Enter valid choice.")
         
     # will continue later    
