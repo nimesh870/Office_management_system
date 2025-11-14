@@ -24,7 +24,7 @@ class Task:
         self.task_status = task_status
         
     def __str__(self):
-        return f"({self.task_id})  {self.assigned_to} ->{self.task_status} task -> {self.task_title}"   
+        return f"({self.task_id})  {self.assigned_to} ->{self.task_status}, task -> {self.task_title}"   
      
     
 class Office_mgmt_sys:
