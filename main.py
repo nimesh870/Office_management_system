@@ -1,4 +1,6 @@
 import hashlib
+from email_validator import validate_email, EmailNotValidError
+
 
 def hashed_password(password):
     # Convert the password to bytes, hash it using SHA-256, and return the hash as a readable hexadecimal string
@@ -11,7 +13,19 @@ class Employee:
         self.post = post
         self.gender = gender
         self.email = email
+        self.email = self.validate_employee_email(email)
         
+        #checking validity of email
+    def validate_employee_email(self, email) :
+        try:
+            #checks the syntax of email and also checks if the email exists or not
+            valid = validate_email(email, check_deliverability = False)
+            return valid.email #returns email if it is valid
+        
+        except EmailNotValidError as e:
+            raise ValueError("\n⚠️ Invalid Email entered. Ex: user@gmail.com") from e
+        
+              
     def __str__(self):
         return f"({self.emp_id}) {self.name}  {self.gender} -> {self.post}  {self.email}"
     
@@ -151,7 +165,7 @@ if __name__ == "__main__":
                 break
                     
             else:
-                print("\n⚠️Invalid choice.")
+                print("\n⚠️ Invalid choice.")
                 
             
     
@@ -177,4 +191,4 @@ if __name__ == "__main__":
                 break
             
             else:
-                print("\n⚠️Invalid choice.")
+                print("\n⚠️ Invalid choice.")
