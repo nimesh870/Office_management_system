@@ -95,6 +95,28 @@ class Office_mgmt_sys:
         if not found:
             print("❌ No tasks assigned to you.\n")
             
+    def delete_emp(self, emp_id):
+        emp_id = input("Enter employe's ID : ")
+        
+        employee = next((e for e in self.employees if e.emp_id == emp_id), None)
+        
+        if not employee:
+            print("\n❌ Employees not found.\n")
+            return
+        
+        confirm = input(f"Are you sure want to delete {employee.name} (y/n) : ")
+        if confirm.lower() != 'y':
+            print("\n❌ Deletion canceled.\n")
+            return # exits safely
+        
+        self.employees = [e for e in self.employees if e.emp_id != emp_id] #deleting employees using list comprehension
+        self.tasks = [t for t in self.tasks if t.assigned_to != employee.name]
+        
+        print("\n✅ Deletion of employee and related task successful.\n")
+        
+            
+            
+          
     def login(self):
         print("\n-----Login required-----\n")
         username = input("Enter username : ")
@@ -129,7 +151,8 @@ if __name__ == "__main__":
         print("2. View employee details.")
         print("3. Add employee tasks.")
         print("4. View employee tasks.")
-        print("5. Exit.\n")
+        print("5. Delete employee.")
+        print("6. Exit.\n")
         
         
         while True:
@@ -159,8 +182,13 @@ if __name__ == "__main__":
             elif choice == 4:
                 print("\n-----Task details-----")
                 systemOfEmp.view_task(task_id, task_title, assigned_to, deadline, emp_id)
-                    
+                
             elif choice == 5:
+                systemOfEmp.delete_emp(emp_id)
+
+                    
+                    
+            elif choice == 6:
                 print("\n👋 Exited from menu.")
                 break
                     
