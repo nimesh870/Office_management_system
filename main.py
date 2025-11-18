@@ -1,5 +1,7 @@
 import hashlib
 from email_validator import validate_email, EmailNotValidError
+import json
+import os
 
 
 def hashed_password(password):
@@ -27,7 +29,7 @@ class Employee:
         
               
     def __str__(self):
-        return f"({self.emp_id}) {self.name}  {self.gender} -> {self.post}  {self.email}"
+        return f"({self.emp_id}) {self.name}  {self.gender} -> {self.post}  {self.email}\n"
     
 class Task:
     def __init__(self, task_id, assigned_to, task_title, deadline, task_status = "pending"):
@@ -38,7 +40,7 @@ class Task:
         self.task_status = task_status
         
     def __str__(self):
-        return f"({self.task_id})  {self.assigned_to} ->{self.task_status}, task -> {self.task_title}"   
+        return f"({self.task_id})  {self.assigned_to} ->{self.task_status}, task -> {self.task_title}\n"   
      
     
 class Office_mgmt_sys:
@@ -104,7 +106,7 @@ class Office_mgmt_sys:
             print("\n❌ Employees not found.\n")
             return
         
-        confirm = input(f"Are you sure want to delete {employee.name} (y/n) : ")
+        confirm = input(f"Are you sure want to delete {employee.name} as employee (y/n) : ")
         if confirm.lower() != 'y':
             print("\n❌ Deletion canceled.\n")
             return # exits safely
@@ -133,12 +135,89 @@ class Office_mgmt_sys:
         else :
             print("❌ Invalid username and password.\n")
             return None
-    
+        
+
+    def save_data(self):
+        
+        data = {
+            
+            "employees" : [
+                {
+                    "emp_id" : emp.emp_id,
+                    "name" : emp.name,
+                    "gender" : emp.gender,
+                    "post" : emp.post,
+                    "email" : emp.email,
+                }
+                for emp in self.employees
+            ],
+            
+            "tasks" :
+                [
+                    {
+                        "task_id" : tsk.task_id,
+                        "task_title" : tsk.task_title,
+                        "assigned_to" : tsk.assigned_to,
+                        "deadline" : tsk.deadline,
+                        "task_status" : tsk.task_status
+                    }
+                    for tsk in self.tasks
+                ]
+        }  
+        
+        with open("file.json" , "w") as fp:
+            json.dump(data, fp, indent = 4)
+            
+        print("\n🗃️ Sucessfully saved data.\n")
+        
+    def load_data(self):
+        
+        try :
+            
+            filename = "file.json"
+            if not os.path.exists(filename) or os.stat(filename).st_size == 0: # helped by AI
+                # File does not exist or is empty
+               return {"employees": [], "tasks": []}
+           
+            with open("file.json", "r") as fp:
+                data = json.load(fp)
+             
+            #load employees   
+            self.employees = {
+                Employee (
+                    emp["emp_id"],
+                    emp["name"],
+                    emp["gender"],
+                    emp["post"],
+                    emp["email"]
+                )
+                for emp in data.get("employees", []) # get employees from data
+            }
+            
+            #load tasks
+            self.tasks = {
+                
+                Task(
+                    tsk["task_id"],
+                    tsk["task_title"],
+                    tsk["assigned_to"],
+                    tsk["deadline"],
+                    tsk["task_status"]
+                    
+                )
+                for tsk in data.get("tasks" , []) # get tasks from data
+            }
+            
+            print("\n📂 Data loaded successfully.\n")
+            
+        except FileNotFoundError as f:
+            print("\n⚠️ No data are saved yet.\n", str(f))
     
                  
 if __name__ == "__main__":
     
     systemOfEmp = Office_mgmt_sys()
+    systemOfEmp.load_data()
     role = systemOfEmp.login() 
     
     if role is None:
@@ -186,9 +265,9 @@ if __name__ == "__main__":
             elif choice == 5:
                 systemOfEmp.delete_emp(emp_id)
 
-                    
-                    
+                
             elif choice == 6:
+                systemOfEmp.save_data()
                 print("\n👋 Exited from menu.")
                 break
                     
@@ -196,7 +275,6 @@ if __name__ == "__main__":
                 print("\n⚠️ Invalid choice.")
                 
             
-    
     elif role == "employee":
         print("\n ------Employee choices------\n")
         print("1. View employee details.")
@@ -215,6 +293,7 @@ if __name__ == "__main__":
                 systemOfEmp.view_tasks_of_employee(systemOfEmp.employee_username) #shows task related to username
                 
             elif choice == 3:
+                systemOfEmp.save_data()
                 print("\n👋 Exited from menu.")
                 break
             
