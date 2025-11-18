@@ -175,7 +175,7 @@ class Office_mgmt_sys:
         try :
             
             filename = "file.json"
-            if not os.path.exists(filename) or os.stat(filename).st_size == 0: # helped by AI
+            if not os.path.exists(filename) or os.stat(filename).st_size == 0:
                 # File does not exist or is empty
                return {"employees": [], "tasks": []}
            
@@ -184,8 +184,10 @@ class Office_mgmt_sys:
              
             #load employees   
             self.employees = {
+                
+                #creates python object of each employee
                 Employee (
-                    emp["emp_id"],
+                    emp["emp_id"], #keys in the dictionary
                     emp["name"],
                     emp["gender"],
                     emp["post"],
