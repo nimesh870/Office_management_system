@@ -139,7 +139,7 @@ class Office_mgmt_sys:
             print("❌ Invalid username and password.\n")
             return None
         
-
+        
     def save_data(self):
             data = {
                 
@@ -217,9 +217,10 @@ class Office_mgmt_sys:
         except FileNotFoundError as f:
             print("\n⚠️ No data are saved yet.\n", str(f))
             
+            
 def validate_date(date_str):
     try:
-        #convert to datetime
+        #reads the datetime string
         entered_date = datetime.strptime(date_str, "%Y-%m-%d")
 
         #get today's date (without time)
@@ -232,6 +233,20 @@ def validate_date(date_str):
         return True
     except ValueError:
         return False
+    
+def validate_emp_id(self):
+    if emp_id.startswith("EMP"):
+        return True
+    
+    return False
+
+def validate_task_id(self):
+    if task_id.startswith("TSK"):
+        return True
+    
+    return False
+
+    
 
     
                  
@@ -264,6 +279,11 @@ if __name__ == "__main__":
                 gender = input("Enter employee's gender : ")
                 post = input("Enter employee's post : ")
                 email = input("Enter employee's email : ")
+                
+                if not validate_date(emp_id):
+                    print("\n❌ Invalid employee ID.\n")
+                    
+                    continue
                
                 systemOfEmp.add_employee(emp_id, name, gender, post, email)
                     
@@ -279,6 +299,9 @@ if __name__ == "__main__":
                 
                 if not validate_date(deadline):
                     print("\n❌ Invalid or past date entered.\n")
+                    
+                elif not validate_task_id(task_id):
+                    print("\n❌ Incorrect task ID.\n")
                     continue
                
                 systemOfEmp.add_task(task_id, task_title, assigned_to, deadline, emp_id)
