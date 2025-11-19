@@ -58,9 +58,13 @@ class Office_mgmt_sys:
         
          
     def add_employee(self, emp_id , name , gender , post , email):
+        if gender.lower() not in ["male" , "female"]:
+            print("\n❌ Invalid gender entered.\n")
+            return
         emp = Employee(emp_id, name, gender, post, email)
         self.employees.append(emp)
         print(f"\n✅ Successfully added the details of {name}.\n")
+            
         
     def view_employee(self):
         if not self.employees:
@@ -79,7 +83,7 @@ class Office_mgmt_sys:
         print("\n✅ Tasks added successfully.\n")
         
         
-    def view_task(self, task_id, task_title, assigned_to, deadline, emp_id):
+    def view_task(self):
         if not self.tasks:
             print("❌ No tasks added yet.\n")
             
@@ -97,12 +101,12 @@ class Office_mgmt_sys:
         if not found:
             print("❌ No tasks assigned to you.\n")
             
-    def delete_emp(self, emp_id):
-        emp_id = input("Enter employe's ID : ")
+    def delete_emp(self):
+        emp_id = input("Enter employee's ID : ")
         
         employee = next((e for e in self.employees if e.emp_id == emp_id), None)
         
-        if not employee:
+        if not employee :
             print("\n❌ Employees not found.\n")
             return
         
@@ -139,36 +143,38 @@ class Office_mgmt_sys:
 
     def save_data(self):
         
-        data = {
-            
-            "employees" : [
-                {
-                    "emp_id" : emp.emp_id,
-                    "name" : emp.name,
-                    "gender" : emp.gender,
-                    "post" : emp.post,
-                    "email" : emp.email,
-                }
-                for emp in self.employees
-            ],
-            
-            "tasks" :
-                [
-                    {
-                        "task_id" : tsk.task_id,
-                        "task_title" : tsk.task_title,
-                        "assigned_to" : tsk.assigned_to,
-                        "deadline" : tsk.deadline,
-                        "task_status" : tsk.task_status
-                    }
-                    for tsk in self.tasks
-                ]
-        }  
         
-        with open("file.json" , "w") as fp:
-            json.dump(data, fp, indent = 4)
+            data = {
+                
+                "employees" : [
+                    {
+                        "emp_id" : emp.emp_id,
+                        "name" : emp.name,
+                        "gender" : emp.gender,
+                        "post" : emp.post,
+                        "email" : emp.email,
+                    }
+                    for emp in self.employees
+                ],
+                
+                "tasks" :
+                    [
+                        {
+                            "task_id" : tsk.task_id,
+                            "task_title" : tsk.task_title,
+                            "assigned_to" : tsk.assigned_to,
+                            "deadline" : tsk.deadline,
+                            "task_status" : tsk.task_status
+                        }
+                        for tsk in self.tasks
+                    ]
+            }  
             
-        print("\n🗃️ Sucessfully saved data.\n")
+            with open("file.json" , "w") as fp:
+                json.dump(data, fp, indent = 4)
+                
+            print("\n🗃️ Sucessfully saved data.\n")
+        
         
     def load_data(self):
         
@@ -183,7 +189,7 @@ class Office_mgmt_sys:
                 data = json.load(fp)
              
             #load employees   
-            self.employees = {
+            self.employees = [
                 
                 #creates python object of each employee
                 Employee (
@@ -194,21 +200,21 @@ class Office_mgmt_sys:
                     emp["email"]
                 )
                 for emp in data.get("employees", []) # get employees from data
-            }
+            ]
             
             #load tasks
-            self.tasks = {
+            self.tasks = [
                 
                 Task(
                     tsk["task_id"],
-                    tsk["task_title"],
                     tsk["assigned_to"],
+                    tsk["task_title"],
                     tsk["deadline"],
                     tsk["task_status"]
                     
                 )
                 for tsk in data.get("tasks" , []) # get tasks from data
-            }
+            ]
             
             print("\n📂 Data loaded successfully.\n")
             
@@ -258,14 +264,14 @@ if __name__ == "__main__":
                 assigned_to = input("Enter the name of employee to whom task is assigned : ")
                 deadline = input("Enter the deadline(YYYY-MM-DD) : ")
                
-                systemOfEmp.add_task(task_id, task_title, assigned_to, deadline, assigned_to)
+                systemOfEmp.add_task(task_id, task_title, assigned_to, deadline, emp_id)
                     
             elif choice == 4:
                 print("\n-----Task details-----")
-                systemOfEmp.view_task(task_id, task_title, assigned_to, deadline, emp_id)
+                systemOfEmp.view_task()
                 
             elif choice == 5:
-                systemOfEmp.delete_emp(emp_id)
+                systemOfEmp.delete_emp()
 
                 
             elif choice == 6:
@@ -291,11 +297,12 @@ if __name__ == "__main__":
                 systemOfEmp.view_employee()
                 
             elif choice == 2:
+                name = input("Enter your name : ")
                 print("\n-----Your tasks details-----")
-                systemOfEmp.view_tasks_of_employee(systemOfEmp.employee_username) #shows task related to username
+                systemOfEmp.view_tasks_of_employee(name) #shows task related to user's name
                 
             elif choice == 3:
-                systemOfEmp.save_data()
+                # systemOfEmp.save_data()
                 print("\n👋 Exited from menu.")
                 break
             
