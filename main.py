@@ -2,6 +2,7 @@ import hashlib
 from email_validator import validate_email, EmailNotValidError
 import json
 import os
+from datetime import datetime
 
 
 def hashed_password(password):
@@ -121,8 +122,6 @@ class Office_mgmt_sys:
         print("\n✅ Deletion of employee and related task successful.\n")
         
             
-            
-          
     def login(self):
         print("\n-----Login required-----\n")
         username = input("Enter username : ")
@@ -142,8 +141,6 @@ class Office_mgmt_sys:
         
 
     def save_data(self):
-        
-        
             data = {
                 
                 "employees" : [
@@ -177,7 +174,6 @@ class Office_mgmt_sys:
         
         
     def load_data(self):
-        
         try :
             
             filename = "file.json"
@@ -220,6 +216,23 @@ class Office_mgmt_sys:
             
         except FileNotFoundError as f:
             print("\n⚠️ No data are saved yet.\n", str(f))
+            
+def validate_date(date_str):
+    try:
+        #convert to datetime
+        entered_date = datetime.strptime(date_str, "%Y-%m-%d")
+
+        #get today's date (without time)
+        today = datetime.now().date()
+
+        #reject past dates
+        if entered_date.date() < today:
+            return False
+
+        return True
+    except ValueError:
+        return False
+
     
                  
 if __name__ == "__main__":
@@ -263,6 +276,10 @@ if __name__ == "__main__":
                 task_title = input("Enter the task : ")
                 assigned_to = input("Enter the name of employee to whom task is assigned : ")
                 deadline = input("Enter the deadline(YYYY-MM-DD) : ")
+                
+                if not validate_date(deadline):
+                    print("\n❌ Invalid or past date entered.\n")
+                    continue
                
                 systemOfEmp.add_task(task_id, task_title, assigned_to, deadline, emp_id)
                     
