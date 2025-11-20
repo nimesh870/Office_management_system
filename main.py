@@ -62,6 +62,7 @@ class Office_mgmt_sys:
         if gender.lower() not in ["male" , "female"]:
             print("\n❌ Invalid gender entered.\n")
             return
+        
         emp = Employee(emp_id, name, gender, post, email)
         self.employees.append(emp)
         print(f"\n✅ Successfully added the details of {name}.\n")
@@ -70,14 +71,16 @@ class Office_mgmt_sys:
     def view_employee(self):
         if not self.employees:
             print("❌ No employees found.\n")
+            return
             
         for emp in self.employees:
             print(emp)
             
-    def add_task(self, task_id, task_title, assigned_to, deadline, emp_id):
+    def add_task(self, task_id, task_title, assigned_to, deadline):
         employee = next((e for e in self.employees if e.emp_id == emp_id), None) #loops through employee and filters emp_id
         if not self.employees:
-            print("❌ Employees not found.\n")
+            print("❌ Employees not found. Add employees first.\n")
+            return
             
         task = Task(task_id, assigned_to, task_title, deadline)
         self.tasks.append(task)
@@ -87,6 +90,7 @@ class Office_mgmt_sys:
     def view_task(self):
         if not self.tasks:
             print("❌ No tasks added yet.\n")
+            return
             
         for task in self.tasks:
             print(task)
@@ -231,25 +235,18 @@ def validate_date(date_str):
             return False
 
         return True
+    
     except ValueError:
         return False
     
-def validate_emp_id(self):
-    if emp_id.startswith("EMP"):
-        return True
-    
-    return False
+def validate_emp_id(emp_id):
+    return emp_id.startswith("EMP") and len(emp_id) > 3
 
-def validate_task_id(self):
-    if task_id.startswith("TSK"):
-        return True
-    
-    return False
+def validate_task_id(task_id):
+    return task_id.startswith("TSK") and len(task_id) > 3
+
 
     
-
-    
-                 
 if __name__ == "__main__":
     
     systemOfEmp = Office_mgmt_sys()
@@ -274,40 +271,41 @@ if __name__ == "__main__":
             choice = int(input("Enter your choice : "))
                 
             if choice == 1:
-                emp_id = input("Enter employee's id : ")
+                emp_id = input("\nEnter employee's id : ")
                 name = input("Enter employee's name : ")
                 gender = input("Enter employee's gender : ")
                 post = input("Enter employee's post : ")
                 email = input("Enter employee's email : ")
                 
-                if not validate_date(emp_id):
+                if not validate_emp_id(emp_id):
                     print("\n❌ Invalid employee ID.\n")
-                    
                     continue
                
                 systemOfEmp.add_employee(emp_id, name, gender, post, email)
                     
             elif choice == 2:
-                print("\n-----Details of employee-----")
+                print("\n-----Details of employee-----\n")
                 systemOfEmp.view_employee()
                     
             elif choice == 3:
-                task_id = input("Enter employee's task id : ")
+                task_id = input("\nEnter employee's task id : ")
                 task_title = input("Enter the task : ")
                 assigned_to = input("Enter the name of employee to whom task is assigned : ")
                 deadline = input("Enter the deadline(YYYY-MM-DD) : ")
                 
                 if not validate_date(deadline):
                     print("\n❌ Invalid or past date entered.\n")
+                    continue
+                    
                     
                 elif not validate_task_id(task_id):
                     print("\n❌ Incorrect task ID.\n")
                     continue
                
-                systemOfEmp.add_task(task_id, task_title, assigned_to, deadline, emp_id)
+                systemOfEmp.add_task(task_id, task_title, assigned_to, deadline)
                     
             elif choice == 4:
-                print("\n-----Task details-----")
+                print("\n-----Task details-----\n")
                 systemOfEmp.view_task()
                 
             elif choice == 5:
@@ -337,8 +335,8 @@ if __name__ == "__main__":
                 systemOfEmp.view_employee()
                 
             elif choice == 2:
-                name = input("Enter your name : ")
-                print("\n-----Your tasks details-----")
+                name = input("\nEnter your name : ")
+                print("\n-----Your tasks details-----\n")
                 systemOfEmp.view_tasks_of_employee(name) #shows task related to user's name
                 
             elif choice == 3:
