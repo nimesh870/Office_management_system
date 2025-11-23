@@ -32,6 +32,7 @@ class Employee:
     def __str__(self):
         return f"({self.emp_id}) {self.name}  {self.gender} -> {self.post}  {self.email}\n"
     
+    
 class Task:
     def __init__(self, task_id, assigned_to, task_title, deadline, task_status = "pending"):
         self.task_id = task_id
@@ -144,6 +145,8 @@ class Office_mgmt_sys:
             return None
         
         
+                
+        
     def save_data(self):
             data = {
                 
@@ -155,6 +158,8 @@ class Office_mgmt_sys:
                         "post" : emp.post,
                         "email" : emp.email,
                     }
+                    
+                    # Converting each python object into dictionary(JSON cannot save custom Python objects directly)
                     for emp in self.employees
                 ],
                 
@@ -168,7 +173,8 @@ class Office_mgmt_sys:
                             "task_status" : tsk.task_status
                         }
                         for tsk in self.tasks
-                    ]
+                    ],
+                    
             }  
             
             with open("file.json" , "w") as fp:
@@ -176,7 +182,7 @@ class Office_mgmt_sys:
                 
             print("\n🗃️ Sucessfully saved data.\n")
         
-        
+        #loads the data whenever the program runs fresh
     def load_data(self):
         try :
             
@@ -297,7 +303,6 @@ if __name__ == "__main__":
                     print("\n❌ Invalid or past date entered.\n")
                     continue
                     
-                    
                 elif not validate_task_id(task_id):
                     print("\n❌ Incorrect task ID.\n")
                     continue
@@ -310,7 +315,6 @@ if __name__ == "__main__":
                 
             elif choice == 5:
                 systemOfEmp.delete_emp()
-
                 
             elif choice == 6:
                 systemOfEmp.save_data()
@@ -328,7 +332,7 @@ if __name__ == "__main__":
         print("3. Exit.\n")
         
         while True:
-            choice = int(input("Enter your choice : "))
+            choice = int(input("\nEnter your choice : "))
             
             if choice == 1:
                 print("\n-----Your details-----\n")
@@ -338,6 +342,7 @@ if __name__ == "__main__":
                 name = input("\nEnter your name : ")
                 print("\n-----Your tasks details-----\n")
                 systemOfEmp.view_tasks_of_employee(name) #shows task related to user's name
+                
                 
             elif choice == 3:
                 # systemOfEmp.save_data()
