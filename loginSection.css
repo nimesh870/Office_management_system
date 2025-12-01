@@ -10,37 +10,44 @@ body{
     align-items: center;
     margin: 0;
     height: 100vh;
-
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 
 .loginDiv{
-    height: 50vh;
+    height:55vh;
     width: 50vw;
-    background-color: #E5F4E3;
+    background:transparent;
     border-radius: 20px;
+    transition: background-color 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.9);
 }
 
 .loginDiv h3{
     margin: 10px;
     padding: 10px;
     font-family: sans-serif;
-    color: #FF499E;
+    color: #F3E5AB;
+    text-align: center;
 }
 
 .form_box input{
 
     display: block;
     margin: 5px auto;
-    padding-left: 5px;
-    border-radius: 3px;
-    height: 30px;
-    border: none;
+    padding-left: 9px;
+    border-radius: 30px;
+    height: 35px;
+    border: 0.5px solid black;
     font-size: 20px;
     gap: 0px;
 }
 
 .form_box label{
+    color: aliceblue;
     display: block;
     text-align: center;
     width: 70%;
@@ -50,16 +57,30 @@ body{
 
 .form_box button{
 
-    border-radius: 10px;
+    border-radius: 30px;
     display: block;
     padding: auto;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 10px;
     border: none;
     cursor: pointer;
-    width: 230px;
-    height: 40px;
-    background-color: cornflowerblue;
-    font-size: bold;
-    color: white;
+    width: 37%;
+    height: 45px;
+    background-color: white;
+    font-size: 100%;
+    font-weight: 550;
+    font-family: sans-serif;
+    color: black;
+}
+
+
+.form_box button:hover{
+    background-color: #FF499E;
+}
+
+.form_box i{
+    position: absolute;
+    right: 42%;
+    transform: translateY(70%);
+    font-size: 20px;
 }
