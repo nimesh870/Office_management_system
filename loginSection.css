@@ -10,7 +10,7 @@ body{
     align-items: center;
     margin: 0;
     height: 100vh;
-    background-image: url("background.jpg");
+    background-image: url("rgb.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -18,19 +18,23 @@ body{
 
 
 .loginDiv{
+    position: relative;
     height:55vh;
-    width: 50vw;
+    width: 70vw;
     background:transparent;
     border-radius: 20px;
     transition: background-color 0.3s ease;
     border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 3px 8px 40px rgba(0, 255, 255, 1);
+    overflow: hidden;
 }
 
-.loginDiv h3{
+.loginDiv h2{
     margin: 10px;
     padding: 10px;
+    font-size: 30px;
     font-family: sans-serif;
-    color: #F3E5AB;
+    color: white;
     text-align: center;
 }
 
@@ -39,7 +43,7 @@ body{
     display: block;
     margin: 5px auto;
     padding-left: 9px;
-    border-radius: 30px;
+    border-radius: 20px;
     height: 35px;
     border: 0.5px solid black;
     font-size: 20px;
@@ -51,6 +55,7 @@ body{
     display: block;
     text-align: center;
     width: 70%;
+    padding-left: 5%;
     font-family: sans-serif;
 }
 
@@ -64,23 +69,40 @@ body{
     margin-top: 10px;
     border: none;
     cursor: pointer;
-    width: 37%;
+    width: 28%;
     height: 45px;
-    background-color: white;
+    background-color: transparent;
     font-size: 100%;
     font-weight: 550;
     font-family: sans-serif;
-    color: black;
-}
-
-
-.form_box button:hover{
-    background-color: #FF499E;
+    color: white;
+    background: linear-gradient(45deg, #ff2770, #25252b);
 }
 
 .form_box i{
     position: absolute;
-    right: 42%;
+    right: 38%;
     transform: translateY(70%);
     font-size: 20px;
+}
+
+.info{
+
+    position: absolute;
+    top: 5%;
+    right: 0.5%;
+    color: white;
+    font-family: sans-serif;
+    text-align: end;
+}
+
+.diagonal{
+    position: absolute;
+    right: 0;
+    top: -60%;
+    left: 42%;
+    height: 60vh;
+    width: 60vw;
+    background: linear-gradient(45deg, #25252b, #ff2770);
+    transform: rotate(25deg) skewY(27deg);
 }
