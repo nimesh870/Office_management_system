@@ -19,15 +19,24 @@ body{
 
 .loginDiv{
     position: relative;
-    height:55vh;
-    width: 70vw;
+    height: auto;
+    padding: 20px 0;
+    width: 90%;
+    max-width: 450px;
     background:transparent;
     border-radius: 20px;
     transition: background-color 0.3s ease;
     border: 2px solid rgba(255, 255, 255, 0.9);
     box-shadow: 3px 8px 40px rgba(0, 255, 255, 1);
     overflow: hidden;
+    transform: all 0.3s ease-in;
 }
+
+.loginDiv:hover {
+    border-width: 4px; /* Slightly thicker border */
+    box-shadow: 6px 12px 50px rgba(0, 255, 255, 1); /* Shadow grows a bit too */
+}
+
 
 .loginDiv h2{
     margin: 10px;
@@ -44,6 +53,8 @@ body{
     margin: 5px auto;
     padding-left: 9px;
     border-radius: 20px;
+    width: 65%;
+    max-width: 450px;
     height: 35px;
     border: 0.5px solid black;
     font-size: 20px;
@@ -54,7 +65,7 @@ body{
     color: aliceblue;
     display: block;
     text-align: center;
-    width: 70%;
+    width: 40%;
     padding-left: 5%;
     font-family: sans-serif;
 }
@@ -69,7 +80,7 @@ body{
     margin-top: 10px;
     border: none;
     cursor: pointer;
-    width: 28%;
+    width: 55%;
     height: 45px;
     background-color: transparent;
     font-size: 100%;
@@ -77,32 +88,49 @@ body{
     font-family: sans-serif;
     color: white;
     background: linear-gradient(45deg, #ff2770, #25252b);
+    transition: all 0.4s ease;
 }
+
+button:hover {
+    background: linear-gradient(45deg, #25252b, #ff2770);
+    transform: scale(1.1); /* Slightly grows */
+    box-shadow: 0 8px 20px rgba(255, 39, 112, 0.5);
+}
+
+.form_box button:hover {
+    transform: rotate(-2deg) scale(1.1);
+}
+
+button :hover{
+    box-shadow: 4px 3px 15px 5px rgba(255, 39, 112, 0.6);
+}
+
+.form_box button:hover {
+    color: #ffeb3b; /* changes text to bright yellow on hover */
+}
+
 
 .form_box i{
     position: absolute;
-    right: 38%;
+    right: 19%;
     transform: translateY(70%);
     font-size: 20px;
 }
 
-.info{
-
-    position: absolute;
-    top: 5%;
-    right: 0.5%;
-    color: white;
-    font-family: sans-serif;
-    text-align: end;
-}
-
 .diagonal{
     position: absolute;
-    right: 0;
-    top: -60%;
-    left: 42%;
-    height: 60vh;
-    width: 60vw;
+    left: 30%;
+    top: -30%;
+    left: 50%;
+    height: 200px;
+    width: 330px;
     background: linear-gradient(45deg, #25252b, #ff2770);
     transform: rotate(25deg) skewY(27deg);
+}
+
+/* If the width drops below 300px, then diagonal style disappears */
+@media (max-width: 300px){
+    .diagonal{
+        display: none;
+    }
 }
